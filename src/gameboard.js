@@ -24,7 +24,7 @@ export class Gameboard {
     const ship = new Ship(length);
     if (length === 1) {
       //Fill that board position with ship length
-      this.board[i1][j1] = ship.length;
+      this.board[i1][j1] = ship.id;
       this.ships.push(ship);
       return 'Placed!';
     }
@@ -41,11 +41,11 @@ export class Gameboard {
     }
     if (i1 === i2) {
       for (let j = j1; j < j2; j++) {
-        this.board[i1][j] = ship.length;
+        this.board[i1][j] = ship.id;
       }
     } else {
       for (let i = i1; i < i2; i++) {
-        this.board[i][j1] = ship.length;
+        this.board[i][j1] = ship.id;
       }
     }
     this.ships.push(ship);
