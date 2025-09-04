@@ -33,6 +33,37 @@ describe('Place Ship', () => {
     const actual = gameBoard.placeShip(length, 3, 7, 'top');
     expect(actual).toBe('Placed!');
   });
+
+  test('Try to overlap ship', () => {
+    const length = 1;
+    gameBoard.placeShip(length, 0, 0);
+    const actual = gameBoard.placeShip(length, 0, 0);
+    expect(actual).toBe('Invalid!');
+  });
+
+  test('Try to overlap in cross', () => {
+    const length1 = 4;
+    const length2 = 3;
+    gameBoard.placeShip(length1, 0, 0, 'right');
+    const actual = gameBoard.placeShip(length2, 2, 3, 'top');
+    expect(actual).toBe('Invalid!');
+  });
+
+  test('Try to place adjacent ship', () => {
+    const length1 = 1;
+    const length2 = 2;
+    gameBoard.placeShip(length1, 0, 0);
+    const actual = gameBoard.placeShip(length2, 0, 1, 'right');
+    expect(actual).toBe('Invalid!');
+  });
+
+  test('Try to place adjacent ship on center', () => {
+    const length1 = 1;
+    const length2 = 2;
+    gameBoard.placeShip(length2, 5, 5, 'bottom');
+    const actual = gameBoard.placeShip(length1, 4, 4);
+    expect(actual).toBe('Invalid!');
+  });
 });
 
 describe('Receive attacks', () => {
