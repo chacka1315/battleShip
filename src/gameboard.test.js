@@ -74,3 +74,52 @@ describe('Receive attacks', () => {
     expect(secondHit).toBe('Already attacked!');
   });
 });
+
+describe('Board sunk Ship', () => {
+  let gameBoard;
+  beforeEach(() => {
+    gameBoard = new Gameboard();
+  });
+
+  test('All ship are not sunk before 0 hits', () => {
+    const length1 = 1;
+    const length2 = 2;
+    gameBoard.placeShip(length1, 0, 0, 'right');
+    gameBoard.placeShip(length2, 3, 7, 'top');
+    const actual = gameBoard.allShipAreSunk();
+    expect(actual).toBe(false);
+  });
+
+  test('All ship are not sunk after 1 hits', () => {
+    const length1 = 1;
+    const length2 = 2;
+    gameBoard.placeShip(length1, 0, 0, 'right');
+    gameBoard.placeShip(length2, 3, 7, 'top');
+    gameBoard.receiveAttacks(0, 0);
+    const actual = gameBoard.allShipAreSunk();
+    expect(actual).toBe(false);
+  });
+
+  test('All ship are sunk after they receive hits equal to the total length ', () => {
+    const length1 = 1;
+    const length2 = 2;
+    gameBoard.placeShip(length1, 0, 0, 'right');
+    gameBoard.placeShip(length2, 3, 7, 'top');
+    gameBoard.receiveAttacks(0, 0);
+    gameBoard.receiveAttacks(3, 7);
+    gameBoard.receiveAttacks(2, 7);
+    const actual = gameBoard.allShipAreSunk();
+    expect(actual).toBe(true);
+  });
+
+  test('All ship are not sunk if only one is sunk', () => {
+    const length1 = 1;
+    const length2 = 2;
+    gameBoard.placeShip(length1, 0, 0, 'right');
+    gameBoard.placeShip(length2, 3, 7, 'top');
+    gameBoard.receiveAttacks(3, 7);
+    gameBoard.receiveAttacks(2, 7);
+    const actual = gameBoard.allShipAreSunk();
+    expect(actual).toBe(false);
+  });
+});

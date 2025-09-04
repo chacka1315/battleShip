@@ -80,29 +80,14 @@ export class Gameboard {
   }
 
   isValidCoordinate(...coordinates) {
-    let isValid = true;
     for (const point of coordinates) {
       if (point < 0 || point > 9) {
-        isValid = false;
-        return;
+        return false;
       }
     }
-    return isValid;
+    return true;
   }
 
-  // isNoAdjacentShip(i1, j1, i2, j2){
-  //   const noAdjacent = true;
-  //   for (let i = i1; i < i2; i++) {
-  //     for (let j = j1; j < j2; j++) {
-  //       if(this.board[i+1][j-1])
-
-  //     }
-
-  //   }
-  //   if (!this.board[i1 + 1] || !this.board[i1 - 1] || !this.board[i2 + 1]) {
-  //     return;
-  //   }
-  // }
   receiveAttacks(i, j) {
     if (!this.isValidCoordinate(i, j)) return 'Invalid!';
     if (this.board[i][j] === 0) {
@@ -112,7 +97,8 @@ export class Gameboard {
     } else if (this.board[i][j] === -1 || this.board[i][j] === 1) {
       return 'Already attacked!';
     } else {
-      this.sendHit(this.board[i][j]);
+      const shipId = this.board[i][j];
+      this.sendHit(shipId);
       // 1 means we have already hit ship at that position
       this.board[i][j] = 1;
       return 'Hit ship!';
@@ -120,9 +106,16 @@ export class Gameboard {
   }
 
   sendHit(shipId) {
-    const ship = this.ships.find((ship) => {
-      ship.id = shipId;
-    });
+    const ship = this.ships.find((ship) => ship.id === shipId);
     if (ship) ship.hit();
+  }
+
+  allShipAreSunk() {
+    for (const ship of this.ships) {
+      if (!ship.isSunk()) {
+        return false;
+      }
+    }
+    return true;
   }
 }
