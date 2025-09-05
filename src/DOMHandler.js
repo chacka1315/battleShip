@@ -2,27 +2,37 @@ import { Player } from './player';
 import { fillBoard } from './fillBoard';
 import { renderBoard } from './boardRender';
 export function DOMHandler() {
-  const gameboard = document.querySelector('.boards');
+  const boards = document.querySelector('.boards');
+  const gameboard = document.querySelectorAll('.gameboard');
   const msg = document.querySelector('.msg');
   const startButton = document.querySelector('#start');
 
-  const player1 = new Player('Player');
-  const player2 = new Player();
-  fillBoard(player1, player2);
-  renderBoard(player1, player2);
+  let player1 = new Player('Player');
+  let player2 = new Player();
 
   let actualPlayer = player1;
   let opponent = player2;
+
+  renderBoard(player1, player2);
+  const playGame = () => {
+    gameboard.forEach((board) => (board.textContent = ''));
+    player1 = new Player('Player');
+    player2 = new Player();
+    actualPlayer = player1;
+    opponent = player2;
+    fillBoard(player1, player2);
+    renderBoard(player1, player2);
+    isWinner = false;
+    msg.textContent = `It's ${actualPlayer.name} turn...`;
+  };
 
   const switchPlayer = () => {
     actualPlayer = actualPlayer.name === player1.name ? player2 : player1;
     opponent = opponent.name === player1.name ? player2 : player1;
   };
 
-  msg.textContent = `It's ${actualPlayer.name} turn...`;
-
   let isWinner;
-  gameboard.addEventListener('click', (e) => {
+  boards.addEventListener('click', (e) => {
     const button = e.target;
 
     if (isWinner) return;
@@ -49,10 +59,14 @@ export function DOMHandler() {
   };
 
   startButton.addEventListener('click', () => {
-    DOMHandler();
+    playGame();
   });
 
   const computerPlay = () => {
+    if (isWinner) {
+      msg.textContent = `The winner is ${actualPlayer.name} !`;
+      return;
+    }
     let isLegal;
     let i;
     let j;
@@ -64,12 +78,10 @@ export function DOMHandler() {
 
     player1.gameboard.receiveAttacks(i, j);
     isWinner = checkWinner(opponent);
-    if (isWinner) {
-      msg.textContent = `The winner is ${actualPlayer.name} !`;
-    } else {
-      switchPlayer();
-      msg.textContent = `It's ${actualPlayer.name} turn...`;
-    }
+
+    switchPlayer();
+    msg.textContent = `It's ${actualPlayer.name} turn...`;
+
     renderBoard(player1, player2);
   };
 
