@@ -6,7 +6,7 @@ export function DOMHandler() {
   const msg = document.querySelector('.msg');
   const startButton = document.querySelector('#start');
 
-  const player1 = new Player('Siakad');
+  const player1 = new Player('Player');
   const player2 = new Player();
   fillBoard(player1, player2);
   renderBoard(player1, player2);
@@ -24,12 +24,11 @@ export function DOMHandler() {
   let isWinner;
   gameboard.addEventListener('click', (e) => {
     const button = e.target;
-    console.log(button);
-    console.log(opponent.name);
-    console.log(actualPlayer.name);
+
     if (isWinner) return;
     if (!button.matches(`button.board-${opponent.name}`)) return;
-    if (button.dataset.id !== 1 && button.dataset.id !== -1) {
+    const buttonDataId = Number(button.dataset.id);
+    if (buttonDataId !== 1 && buttonDataId !== -1) {
       const i = button.dataset.i;
       const j = button.dataset.j;
       opponent.gameboard.receiveAttacks(i, j);
@@ -41,6 +40,7 @@ export function DOMHandler() {
         msg.textContent = `It's ${actualPlayer.name} turn...`;
       }
       renderBoard(player1, player2);
+      setTimeout(computerPlay, 2000);
     }
   });
 
@@ -51,4 +51,36 @@ export function DOMHandler() {
   startButton.addEventListener('click', () => {
     DOMHandler();
   });
+
+  const computerPlay = () => {
+    let isLegal;
+    let i;
+    let j;
+    while (!isLegal) {
+      i = Math.floor(Math.random() * 10);
+      j = Math.floor(Math.random() * 10);
+      isLegal = isLegalHit(i, j);
+    }
+
+    player1.gameboard.receiveAttacks(i, j);
+    isWinner = checkWinner(opponent);
+    if (isWinner) {
+      msg.textContent = `The winner is ${actualPlayer.name} !`;
+    } else {
+      switchPlayer();
+      msg.textContent = `It's ${actualPlayer.name} turn...`;
+    }
+    renderBoard(player1, player2);
+  };
+
+  const isLegalHit = (i, j) => {
+    if (
+      player1.gameboard.board[i][j] === 1 ||
+      player1.gameboard.board[i][j] === -1
+    ) {
+      return false;
+    }
+
+    return true;
+  };
 }
