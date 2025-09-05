@@ -1,8 +1,8 @@
 export function fillBoard(player1, player2) {
   player1.gameboard.placeShip(1, 0, 0);
-  player1.gameboard.placeShip(1, 5, 5);
+  player1.gameboard.placeShip(1, 2, 9);
+  player1.gameboard.placeShip(2, 5, 5, 'bottom');
   player1.gameboard.placeShip(2, 7, 0, 'right');
-  player1.gameboard.placeShip(2, 2, 9, 'bottom');
   player1.gameboard.placeShip(3, 0, 3, 'bottom');
   player1.gameboard.placeShip(3, 2, 5, 'right');
   player1.gameboard.placeShip(3, 5, 9, 'bottom');
