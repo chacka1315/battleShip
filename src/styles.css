@@ -71,10 +71,17 @@ button {
     10px,
     solid var(--ship-color-primary);
   padding: 5px 10px;
+  width: 150px;
+  text-align: center;
 }
 
 .player1 {
   display: flex;
+  justify-self: flex-end;
+}
+
+.player2 {
+  justify-self: flex-start;
 }
 #randomise {
   font-family: system-ui, sans-serif;

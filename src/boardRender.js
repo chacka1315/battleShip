@@ -42,7 +42,7 @@ export function renderBoard(player1, player2) {
         button.classList.add('hit');
         button.desabled = true;
       } else {
-        button.classList.add('ship');
+        button.classList.add('board');
       }
 
       board2.appendChild(button);
