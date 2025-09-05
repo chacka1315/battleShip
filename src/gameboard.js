@@ -16,10 +16,8 @@ export class Gameboard {
     }
     return board;
   }
-  getBoard() {
-    return this.board;
-  }
-  placeShip(length, i1, j1, direction) {
+
+  placeShip(length, i1, j1, direction = 'none') {
     if (!this.isValidCoordinate(i1, j1)) return 'Invalid!';
     if (length < 1) return 'Invalid!';
 
@@ -42,8 +40,8 @@ export class Gameboard {
     const i2 = otherCoordinates[0];
     const j2 = otherCoordinates[1];
     if (!this.isValidCoordinate(i2, j2)) return 'Invalid!';
-    if (this.shipAt(i1, i2, j1, j2)) return 'Invalid!';
-    if (this.adjacentShip(i1, i2, j1, j2)) return 'Invalid!';
+    // if (this.shipAt(i1, i2, j1, j2)) return 'Invalid!';
+    if (this.adjacentShip(i1, j1, i2, j2)) return 'Invalid!';
 
     if (i1 === i2 && j1 < j2) {
       for (let j = j1; j <= j2; j++) {
@@ -68,82 +66,17 @@ export class Gameboard {
     return 'Placed!';
   }
 
-  shipAt(i1, i2, j1, j2) {
-    if (i1 === i2 && j1 < j2) {
-      for (let j = j1; j <= j2; j++) {
-        if (this.board[i1][j]) return true;
-      }
-    } else {
-      for (let j = j2; j <= j1; j++) {
-        if (this.board[i1][j]) return true;
-      }
-    }
+  adjacentShip(i1, j1, i2 = i1, j2 = j1) {
+    const rowStart = Math.max(0, Math.min(i1, i2) - 1);
+    const rowEnd = Math.min(9, Math.max(i1, i2) + 1);
+    const colStart = Math.max(0, Math.min(j1, j2) - 1);
+    const colEnd = Math.min(9, Math.max(j1, j2) + 1);
 
-    if (j1 === j2 && i1 < i2) {
-      for (let i = i1; i <= i2; i++) {
-        if (this.board[i][j1]) return true;
-      }
-    } else {
-      for (let i = i2; i <= i1; i++) {
-        if (this.board[i][j1]) return true;
-      }
-    }
-    return false;
-  }
-
-  adjacentShip(i1, i2, j1 = i1, j2 = j1) {
-    const i1Max = i1 + 1 > 9 ? i1 : i1 + 1;
-    const i1Min = i1 - 1 < 0 ? i1 : i1 - 1;
-    const j1Max = j1 + 1 > 9 ? j1 : j1 + 1;
-    const j1Min = j1 - 1 < 0 ? j1 : j1 - 1;
-    const i2Max = i2 + 1 > 9 ? i2 : i2 + 1;
-    const i2Min = i2 - 1 < 0 ? i2 : i2 - 1;
-    const j2Max = j2 + 1 > 9 ? j2 : j2 + 1;
-    const j2Min = j2 - 1 < 0 ? j2 : j2 - 1;
-    if (i1 < i2) {
-      if (
-        this.shipAt(i1Min, i2Max, j1Min, j2Min) ||
-        this.shipAt(i1Min, i2Max, j1Max, j2Max) ||
-        this.board[i1Min][j1] ||
-        this.board[i2Max][j1]
-      )
-        return true;
-    } else if (i1 > i2) {
-      if (
-        this.shipAt(i1Max, i2Min, j1Min, j2Min) ||
-        this.shipAt(i1Max, i2Min, j1Max, j2Max) ||
-        this.board[i1Max][j1] ||
-        this.board[i2Min][j1]
-      )
-        return true;
-    }
-
-    if (j1 < j2) {
-      if (
-        this.shipAt(i1Min, i2Min, j1Min, j2Max) ||
-        this.shipAt(i1Max, i2Max, j1Min, j2Max) ||
-        this.board[i1][j1Min] ||
-        this.board[i1][j1Max]
-      )
-        return true;
-    } else if (j1 > j2) {
-      if (
-        this.shipAt(i1Min, i2Min, j1Max, j2Min) ||
-        this.shipAt(i1Max, i2Max, j1Max, j2Min) ||
-        this.board[i1][j1Max] ||
-        this.board[i1][j1Min]
-      )
-        return true;
-    }
-
-    if (i1 === i2 && j1 === j2) {
-      if (
-        this.shipAt(i1Min, i2Max, j1Min, j2Min) ||
-        this.shipAt(i1Min, i2Max, j1Max, j2Max) ||
-        this.board[i1Min][j1] ||
-        this.board[i1Max][j1]
-      ) {
-        return true;
+    for (let i = rowStart; i <= rowEnd; i++) {
+      for (let j = colStart; j <= colEnd; j++) {
+        if (this.board[i][j]) {
+          return true;
+        }
       }
     }
     return false;
