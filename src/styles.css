@@ -90,6 +90,7 @@ main {
 .gameboard button {
   border: 1px solid #a7c9db;
 }
+
 .ship {
   background-color: var(--ship-color-primary);
 }
