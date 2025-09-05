@@ -1,11 +1,13 @@
 import { Player } from './player';
-import { fillBoard } from './fillBoard';
+import { generateBoard } from './fillBoard';
 import { renderBoard } from './boardRender';
 export function DOMHandler() {
   const boards = document.querySelector('.boards');
   const gameboard = document.querySelectorAll('.gameboard');
   const msg = document.querySelector('.msg');
   const startButton = document.querySelector('#start');
+  const randomiseBtn = document.querySelector('#randomise');
+  randomiseBtn.disabled = true;
 
   let player1 = new Player('Player');
   let player2 = new Player();
@@ -20,10 +22,12 @@ export function DOMHandler() {
     player2 = new Player();
     actualPlayer = player1;
     opponent = player2;
-    fillBoard(player1, player2);
+    generateBoard.fillComputerBoard(player2);
+    generateBoard.fillPlayerBoard(player1);
     renderBoard(player1, player2);
     isWinner = false;
     msg.textContent = `It's ${actualPlayer.name} turn...`;
+    randomiseBtn.disabled = false;
   };
 
   const switchPlayer = () => {
@@ -33,8 +37,8 @@ export function DOMHandler() {
 
   let isWinner;
   boards.addEventListener('click', (e) => {
+    randomiseBtn.disabled = true;
     const button = e.target;
-
     if (isWinner) return;
     if (!button.matches(`button.board-${opponent.name}`)) return;
     const buttonDataId = Number(button.dataset.id);
@@ -50,7 +54,7 @@ export function DOMHandler() {
         msg.textContent = `It's ${actualPlayer.name} turn...`;
       }
       renderBoard(player1, player2);
-      setTimeout(computerPlay, 2000);
+      setTimeout(computerPlay, 1500);
     }
   });
 
@@ -60,6 +64,13 @@ export function DOMHandler() {
 
   startButton.addEventListener('click', () => {
     playGame();
+  });
+
+  randomiseBtn.addEventListener('click', () => {
+    document.querySelector('#board1').textContent = '';
+    player1 = new Player('Player');
+    generateBoard.fillPlayerBoard(player1);
+    renderBoard(player1, player2);
   });
 
   const computerPlay = () => {
@@ -75,13 +86,10 @@ export function DOMHandler() {
       j = Math.floor(Math.random() * 10);
       isLegal = isLegalHit(i, j);
     }
-
     player1.gameboard.receiveAttacks(i, j);
     isWinner = checkWinner(opponent);
-
     switchPlayer();
     msg.textContent = `It's ${actualPlayer.name} turn...`;
-
     renderBoard(player1, player2);
   };
 
@@ -92,7 +100,6 @@ export function DOMHandler() {
     ) {
       return false;
     }
-
     return true;
   };
 }

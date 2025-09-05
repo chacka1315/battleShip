@@ -51,12 +51,15 @@ header div {
   place-self: center;
 }
 
+button {
+  cursor: pointer;
+}
 #logo {
   font-family: 'Faster One';
   font-size: 3rem;
   color: var(--ship-color-primary);
 }
-.player1,
+.player1 > div,
 .player2 {
   font-family:
     Bungee,
@@ -68,6 +71,22 @@ header div {
     10px,
     solid var(--ship-color-primary);
   padding: 5px 10px;
+}
+
+.player1 {
+  display: flex;
+}
+#randomise {
+  font-family: system-ui, sans-serif;
+  background-color: var(--board-color);
+  border: none;
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+#randomise:hover {
+  color: rgba(235, 210, 210, 0.84);
 }
 main {
   display: flex;
