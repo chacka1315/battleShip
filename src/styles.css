@@ -1,0 +1,33 @@
+:root {
+  --board-width: 400px;
+  --board-height: 400px;
+}
+
+main {
+  display: flex;
+  gap: 50px;
+}
+.gameboard {
+  width: var(--board-width);
+  height: var(--board-height);
+  display: grid;
+  grid-template-columns: repeat(10, calc(400px / 10));
+  grid-template-rows: repeat(10, calc(400px / 10));
+}
+
+.gameboard button {
+  border: 1px solid white;
+}
+.ship {
+  background-color: gray;
+}
+.water {
+  background-color: blue;
+}
+.missed {
+  background-color: beige;
+}
+
+.hit {
+  background-color: red;
+}
