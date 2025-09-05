@@ -7,7 +7,7 @@ export function renderBoard(player1, player2) {
       const button = document.createElement('button');
       button.dataset.id = player1.gameboard.board[i][j];
       if (player1.gameboard.board[i][j] === 0) {
-        button.classList.add('water');
+        button.classList.add('board');
       } else if (player1.gameboard.board[i][j] === -1) {
         button.classList.add('missed');
       } else if (player1.gameboard.board[i][j] === 1) {
@@ -24,7 +24,7 @@ export function renderBoard(player1, player2) {
       const button = document.createElement('button');
       button.dataset.id = player2.gameboard.board[i][j];
       if (player2.gameboard.board[i][j] === 0) {
-        button.classList.add('water');
+        button.classList.add('board');
       } else if (player2.gameboard.board[i][j] === -1) {
         button.classList.add('missed');
       } else if (player2.gameboard.board[i][j] === 1) {

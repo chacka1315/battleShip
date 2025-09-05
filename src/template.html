@@ -3,16 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Faster+One"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee&display=swap"
+      rel="stylesheet"
+    />
+    <title>Battleship</title>
   </head>
   <body>
     <div class="container">
-      <header></header>
+      <header>
+        <div class="player1">Player 1</div>
+
+        <div id="logo">Battleship</div>
+
+        <div class="player2">Computer</div>
+      </header>
       <main>
-        <div id="board1" class="gameboard"></div>
-        <div id="board2" class="gameboard"></div>
+        <div class="boards">
+          <div id="board1" class="gameboard"></div>
+          <div id="board2" class="gameboard"></div>
+        </div>
       </main>
-      <footer></footer>
+      <div class="turn">
+        <div class="msg">It's player turn</div>
+        <button id="start">New Game</button>
+      </div>
     </div>
   </body>
 </html>

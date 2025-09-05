@@ -1,11 +1,83 @@
+/* reset */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* variables */
 :root {
   --board-width: 400px;
   --board-height: 400px;
+  --board-color: #4291b9;
+  --water-color: #38b2df;
+  --ship-color-primary: #656767;
+  --ship-color-secondary: #ff1f03;
+  --ship-color-tertiary: #fe9048;
 }
 
+body {
+  background-color: var(--board-color);
+}
+.container {
+  display: grid;
+  grid-template-rows: 80px 1fr 100px;
+}
+header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+header div {
+  place-self: center;
+}
+
+#logo {
+  font-family: 'Faster One';
+  font-size: 3rem;
+  color: var(--ship-color-primary);
+}
+.player1,
+.player2 {
+  font-family:
+    Bungee,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: white;
+  border:
+    10px,
+    solid var(--ship-color-primary);
+  padding: 5px 10px;
+}
 main {
   display: flex;
-  gap: 50px;
+  flex-direction: column;
+}
+
+.boards {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 .gameboard {
   width: var(--board-width);
@@ -16,18 +88,40 @@ main {
 }
 
 .gameboard button {
-  border: 1px solid white;
+  border: 1px solid #a7c9db;
 }
 .ship {
-  background-color: gray;
+  background-color: var(--ship-color-primary);
 }
-.water {
-  background-color: blue;
+.board {
+  background-color: var(--board-color);
 }
 .missed {
-  background-color: beige;
+  background-color: var(--water-color);
 }
 
 .hit {
-  background-color: red;
+  background-color: var(--ship-color-tertiary);
+}
+
+.turn {
+  display: flex;
+  flex-direction: column;
+  font-family:
+    Bungee,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-size: 1.5rem;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  color: white;
+}
+
+.turn button {
+  width: 100px;
+  font-family: inherit;
+  color: var(--ship-color-primary);
+  padding: 5px 10px;
 }
